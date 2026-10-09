@@ -6,7 +6,7 @@ const path = require("path");//non richiede installazione perche presente di def
 
 // importazione delle routes
 const pagesRoutes = require("./routes/pageroutes");//gestita come libreria per le routes dei get
-const authRoutes = require("./routes/auth"); ////gestita come libreria per le routes dei post del login
+const authRoutes = require("./routes/auth");//gestita come libreria per le routes dei post del login
 const weatherRoutes = require("./routes/weather");
 
 const app = express();

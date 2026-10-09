@@ -5,11 +5,11 @@ const fetch = require("node-fetch");// da installare npm install node-fetch@2 --
 
 exports.weatherController = async (req, res) => {
     const city = req.body.city;
-    const apiKey = "446e332294950ade2b0883908d551808";
+    const apiKey = "0ac7779fc99f7d9c48d2cf22a5271088";
 
     try {
         const response = await fetch(
-            `https://openweathermap.org{city}&appid=${apiKey}&units=metric&lang=it`
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=it`
         );
 
         const data = await response.json();
