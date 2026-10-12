@@ -6,7 +6,7 @@ const path = require("path");//non richiede installazione perche presente di def
 
 // importazione delle routes
 const pagesRoutes = require("./routes/pageroutes");//gestita come libreria per le routes dei get
-//const authRoutes = require("./routes/auth");//gestita come libreria per le routes dei post del login
+const authRoutes = require("./routes/auth");//gestita come libreria per le routes dei post del login
 const weatherRoutes = require("./routes/weather");
 
 const app = express();
@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "../../../frontend/public")));//devo
 
 //gestione delle routes
 app.use("/", pagesRoutes);
-//app.use("/", authRoutes);
+app.use("/", authRoutes);
 app.use("/", weatherRoutes);
 
 app.listen(port, () => {

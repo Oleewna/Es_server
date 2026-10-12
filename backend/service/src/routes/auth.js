@@ -2,8 +2,8 @@
 
 const express = require("express");
 const router = express.Router();
-const { loginController } = require("../controllers/authController.js"); //importo il file auth controller che sviluppa la logica del login
+const { authController } = require("../controllers/authController.js"); //importo il file auth controller che sviluppa la logica del login
 
-router.post("/login", loginController);
+router.post("/login", authController);
 
 module.exports = router;
