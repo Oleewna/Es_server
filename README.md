@@ -30,8 +30,7 @@ Install the backend dependencies, then start the server from `backend/service`:
 
 ```sh
 npm install
-cd src
-node server.js
+node src/server.js
 ```
 
 Open <http://localhost:3000> in a browser. The weather API integration currently needs configuration/code fixes before weather lookups will work reliably.
