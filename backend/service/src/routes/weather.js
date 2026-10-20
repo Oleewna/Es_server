@@ -2,8 +2,9 @@
 
 const express = require("express");
 const router = express.Router();
-const { weatherController } = require("../controllers/weatherController");
-
+const paths = require("../../config/path");
+//const { weatherController } = require("../controllers/weatherController");
+const { weatherController } = require(paths.CONTROLLERS + "/weatherController");
 router.post("/weather", weatherController);
 
 module.exports = router;

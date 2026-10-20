@@ -2,8 +2,11 @@ document.getElementById("weather-form").addEventListener("submit", async functio
     e.preventDefault(); // evita il redirect
 
     const city = document.getElementById("city-input").value;
+    //const isGatewayPage = window.location.port === "4000" || window.location.pathname.startsWith("/api/v1");
+    //const weatherEndpoint = isGatewayPage ? "/api/v1/weather" : "/weather";
 
-    const res = await fetch("/weather", {
+    //const res = await fetch(weatherEndpoint, {
+    const res = await fetch("/api/v1/weather", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ city })

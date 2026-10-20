@@ -8,23 +8,14 @@
 </head>
 
 <body>
-<div id="navbar">    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-logo">MyApp</div>
+    <div id="navbar"></div>
 
-        <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/weather">Weather</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/signin">Sign In</a></li>
-            <li><a href="/about">About</a></li>
-        </ul>
-    </nav></div>
     <script>
-        fetch("components/navbar.html") //scarica il file da componenets
-            .then(res => res.text()) //quando fetch finisce genera il response e prendi il contenuto come stringa
-            .then(html => document.getElementById("navbar").innerHTML = html); //inserisci in navbar stringa dentro al div 
+        fetch("components/navbar.html")
+            .then(res => res.text())
+            .then(html => document.getElementById("navbar").innerHTML = html);
     </script>
+    
 <div class="login-wrapper">
     <div class="login-box">
         <h2>Login</h2>
