@@ -25,5 +25,5 @@ app.use("/api/v1", createProxyMiddleware({ //tutte le richieste api vengono gest
 }));
 
 app.listen(config.GATEWAY_PORT, () => {
-    console.log(`Gateway attivo su http://localhost:${config.GATEWAY_PORT}/api/v1`);
+    console.log(`Gateway attivo su http://localhost:${config.GATEWAY_PORT}/api/v1/`);
 });
