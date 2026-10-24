@@ -10,7 +10,7 @@ const authRoutes = require("./routes/auth");//gestita come libreria per le route
 const weatherRoutes = require("./routes/weather");
 
 const app = express();
-const port = Number(process.env.PORT) || 3001;
+const port = Number(process.env.PORT) || 3000;
 
 // config body parser
 app.use(bodyParser.json());
