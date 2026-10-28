@@ -4,9 +4,9 @@
     <title>Sign In</title>
     <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
     <!-- CSS navbar + footer + signin -->
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/signin.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/signin.css">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
     <div id="navbar"></div>
 
     <script>
-        fetch("components/navbar.html")
+        fetch("/components/navbar.html")
             .then(res => res.text())
             .then(html => document.getElementById("navbar").innerHTML = html);
     </script>
@@ -45,7 +45,7 @@
     <p>© 2026 MyApp – Tutti i diritti riservati</p>
 </footer></div>
     <script>
-        fetch("components/footer.html")
+        fetch("/components/footer.html")
             .then(res => res.text())
             .then(html => document.getElementById("footer").innerHTML = html);
     </script>

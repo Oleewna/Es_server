@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FBI Wanted</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/wanted.css">
+</head>
+
+<body>
+    <div id="navbar"></div>
+    <script>
+        fetch("/components/navbar.html")
+            .then(res => res.text())
+            .then(html => document.getElementById("navbar").innerHTML = html);
+    </script>
+
+    <div class="wanted-page">
+        <div class="wanted-panel wanted-header-panel">
+            <h2>FBI Wanted</h2>
+            <p>Scheda del giorno selezionata in modo casuale dall'API FBI.</p>
+            <button type="button" id="refresh-wanted">Aggiorna</button>
+        </div>
+
+        <div class="wanted-panel wanted-result-panel" id="wanted-result"></div>
+    </div>
+
+    <div id="footer"></div>
+    <script>
+        fetch("/components/footer.html")
+            .then(res => res.text())
+            .then(html => document.getElementById("footer").innerHTML = html);
+    </script>
+    <script src="/js/fbi.js"></script>
+</body>
+
+</html>

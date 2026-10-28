@@ -1,13 +1,24 @@
 /* ===== NAVBAR ===== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
 .navbar {
     width: 100%;
+    max-width: 100%;
     background: #ffffff;
-    padding: 15px 30px;
+    padding: 15px 24px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;   /* rimane in alto */
+    gap: 18px;
+    position: sticky;
     top: 0;
     z-index: 100;
 }
@@ -17,13 +28,18 @@
     font-weight: bold;
     color: #333;
     letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 /* LINKS */
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px 18px;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links a {
@@ -33,6 +49,7 @@
     padding: 6px 10px;
     border-radius: 6px;
     transition: 0.25s ease;
+    white-space: nowrap;
 }
 
 .nav-links a:hover {
@@ -45,12 +62,17 @@
     .navbar {
         flex-direction: column;
         gap: 10px;
-        padding: 20px;
+        padding: 20px 16px;
     }
 
     .nav-links {
-        flex-direction: column;
-        gap: 12px;
+        justify-content: center;
+        flex-direction: row;
+        gap: 8px 12px;
         text-align: center;
+    }
+
+    .nav-links a {
+        font-size: 14px;
     }
 }

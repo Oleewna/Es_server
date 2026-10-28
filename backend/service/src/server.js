@@ -18,6 +18,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "../../../frontend/public"))); //devo dichiarare dove stanno i file statici
 
+app.get("/api/v1/wanted/today", async (req, res) => {
+    try {
+        const response = await fetch("http://localhost:3002/api/wanted/today");
+        const body = await response.text();
+
+        res.status(response.status);
+        res.set("Content-Type", "application/json; charset=utf-8");
+        res.send(body);
+    } catch (error) {
+        console.error("FBI wanted service unavailable:", error);
+        res.status(502).json({ error: "Impossibile contattare il servizio FBI." });
+    }
+});
+
 //gestione delle routes
 app.use("/", pagesRoutes);
 app.use("/", authRoutes);

@@ -5,5 +5,7 @@ module.exports = {
 
     SERVICE_URL: process.env.SERVICE_URL || "http://localhost:3000",
 
-    AUTH_SERVICE_URL: process.env.AUTH_SERVICE_URL || "http://localhost:3001"
+    AUTH_SERVICE_URL: process.env.AUTH_SERVICE_URL || "http://localhost:3001",
+
+    FBI_SERVICE_URL: process.env.FBI_SERVICE_URL || "http://localhost:3002"
 };
