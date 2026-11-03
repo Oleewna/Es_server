@@ -24,6 +24,13 @@ call npm install
 
 echo.
 echo ==============================
+echo INSTALLAZIONE FBI-SERVICE
+echo ==============================
+cd ..\fbi-service
+echo Python dependencies use the standard library only; no extra install required.
+
+echo.
+echo ==============================
 echo INSTALLAZIONE COMPLETATA
 echo ==============================
 echo.

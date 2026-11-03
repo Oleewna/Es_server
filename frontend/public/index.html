@@ -16,14 +16,33 @@
     <script>
         fetch("/components/navbar.html")
             .then(res => res.text())
-            .then(html => document.getElementById("navbar").innerHTML = html);
+            .then(html => {
+                document.getElementById("navbar").innerHTML = html;
+
+                const userName = new URLSearchParams(window.location.search).get("welcome");
+                const loginLink = document.getElementById("google-login-link");
+
+                if (userName && loginLink) {
+                    loginLink.textContent = "Signed in";
+                    loginLink.href = "#";
+                }
+            });
     </script>
 
     <!-- HERO SECTION -->
     <section class="hero">
-        <h1>Benvenuto</h1>
+        <h1 id="welcome-title">Benvenuto</h1>
         <p>Questa è la homepage del tuo progetto.</p>
     </section>
+
+    <script>
+        const userName = new URLSearchParams(window.location.search).get("welcome");
+        const welcomeTitle = document.getElementById("welcome-title");
+
+        if (userName && welcomeTitle) {
+            welcomeTitle.textContent = `Benvenuto ${decodeURIComponent(userName)}`;
+        }
+    </script>
 
     <!-- FOOTER -->
     <div id="footer"></div>

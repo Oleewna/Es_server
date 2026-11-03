@@ -17,7 +17,17 @@
     <script>
         fetch("/components/navbar.html")
             .then(res => res.text())
-            .then(html => document.getElementById("navbar").innerHTML = html);
+            .then(html => {
+                document.getElementById("navbar").innerHTML = html;
+
+                const userName = new URLSearchParams(window.location.search).get("welcome");
+                const loginLink = document.getElementById("google-login-link");
+
+                if (userName && loginLink) {
+                    loginLink.textContent = `Benvenuto ${decodeURIComponent(userName)}`;
+                    loginLink.href = "#";
+                }
+            });
     </script>
 
     <!-- SIGNIN FORM -->

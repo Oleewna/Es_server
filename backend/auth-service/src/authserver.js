@@ -1,14 +1,26 @@
-const express = require("express"); // riga 1 (parzialmente coperta dal tooltip)
+require("dotenv").config();
 
-const authRoutes = require("./routes/authRoutes");
+const express = require("express");
+const session = require("express-session");
+const passport = require("../config/passport");
+const env = require("../config/env");
+const googleAuthRoutes = require("./routes/authRoutes");
 
 const app = express();
-const PORT = 3001;
 
-app.use(express.json());
+app.use(
+    session({
+        secret: "super-secret-key",
+        resave: false,
+        saveUninitialized: false,
+    })
+);
 
-app.use("/", authRoutes);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.listen(PORT, () => {
-    console.log(`Auth Service avviato sulla porta ${PORT}`);
+app.use("/", googleAuthRoutes);
+
+app.listen(env.AUTH_PORT, () => {
+    console.log(`Auth Server avviato sulla porta ${env.AUTH_PORT}`);
 });
