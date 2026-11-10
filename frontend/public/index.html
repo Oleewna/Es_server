@@ -1,58 +1,34 @@
 <!DOCTYPE html>
 <html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <title>Home</title>
+        <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/footer.css">
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
-    <link rel="stylesheet" href="/css/index.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/footer.css">
-</head>
+    <body>
 
-<body>
-    <div id="navbar"></div>
+        <!-- NAVBAR -->
+        <div id="navbar"></div>
+        <script src="js/navbar.js"></script>
+        <!-- <script>
+            fetch("components/navbar.html")
+                .then(res => res.text())
+                .then(html => document.getElementById("navbar").innerHTML = html);
+        </script> -->
 
-    <script>
-        fetch("/components/navbar.html")
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById("navbar").innerHTML = html;
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <h1>Benvenuto</h1>
+            <p>Questa è la homepage del tuo progetto.</p>
+        </section>
 
-                const userName = new URLSearchParams(window.location.search).get("welcome");
-                const loginLink = document.getElementById("google-login-link");
+        <!-- FOOTER -->
+        <div id="footer"></div>
+        <script src="js/footer.js"></script>
 
-                if (userName && loginLink) {
-                    loginLink.textContent = "Signed in";
-                    loginLink.href = "#";
-                }
-            });
-    </script>
-
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <h1 id="welcome-title">Benvenuto</h1>
-        <p>Questa è la homepage del tuo progetto.</p>
-    </section>
-
-    <script>
-        const userName = new URLSearchParams(window.location.search).get("welcome");
-        const welcomeTitle = document.getElementById("welcome-title");
-
-        if (userName && welcomeTitle) {
-            welcomeTitle.textContent = `Benvenuto ${decodeURIComponent(userName)}`;
-        }
-    </script>
-
-    <!-- FOOTER -->
-    <div id="footer"></div>
-
-    <script>
-        fetch("/components/footer.html")
-            .then(res => res.text())
-            .then(html => document.getElementById("footer").innerHTML = html);
-    </script>
-
-</body>
-
+    </body>
 </html>

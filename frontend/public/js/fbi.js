@@ -1,18 +1,25 @@
 const getWantedApiUrl = () => {
     const currentOrigin = window.location.origin;
+    const maybeV1 = `${currentOrigin}/api/v1/wanted/today`;
+    const directLegacy = `${currentOrigin}/api/wanted/today`;
+    const directToday = `${currentOrigin}/today`;
 
     if (currentOrigin) {
-        return `${currentOrigin}/api/v1/wanted/today`;
+        return maybeV1;
     }
 
-    return "http://localhost:4000/api/v1/wanted/today";
+    return "http://localhost:3000/api/v1/wanted/today";
 };
 
 async function fetchWantedData() {
+    const currentOrigin = window.location.origin;
     const candidates = [
         getWantedApiUrl(),
-        "http://localhost:4000/api/v1/wanted/today",
-        "http://localhost:3002/api/wanted/today"
+        `${currentOrigin}/api/wanted/today`,
+        `${currentOrigin}/today`,
+        "http://localhost:3000/api/v1/wanted/today",
+        "http://localhost:3002/api/wanted/today",
+        "http://localhost:3002/today"
     ];
 
     for (const url of [...new Set(candidates)]) {

@@ -1,62 +1,45 @@
 <!DOCTYPE html>
 <html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <title>Weather API</title>
+        <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/footer.css">
+        <link rel="stylesheet" href="css/weather.css">
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Weather API</title>
-    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/weather.css">
-</head>
+    <body>
+        <!-- NAVBAR -->
+        <div id="navbar"></div>
+        <script src="js/navbar.js"></script>
+        <!-- <script>
+            fetch("components/navbar.html")
+                .then(res => res.text())
+                .then(html => document.getElementById("navbar").innerHTML = html);
+        </script> -->
 
-<body>
+        <!-- WEATHER CONTENT -->
+        <div class="weather-wrapper">
+            <div class="weather-box">
+                <h2>Weather API</h2>
+                <p class="subtitle">Inserisci il nome della città per sapere le condizioni meteo</p>
 
-    <!-- NAVBAR -->
-    <div id="navbar"></div>
-    <script>
-        fetch("/components/navbar.html")
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById("navbar").innerHTML = html;
+                <form id="weather-form">
+                    <input type="text" id="city-input" name="city" placeholder="Nome della città" required>
+                    <button type="submit" id="weather-submit">Invia</button>
+                </form>
+            </div>
 
-                const userName = new URLSearchParams(window.location.search).get("welcome");
-                const loginLink = document.getElementById("google-login-link");
-
-                if (userName && loginLink) {
-                    loginLink.textContent = `Benvenuto ${decodeURIComponent(userName)}`;
-                    loginLink.href = "#";
-                }
-            });
-    </script>
-
-    <!-- WEATHER CONTENT -->
-    <div class="weather-wrapper">
-
-        <div class="weather-box">
-            <h2>Weather API</h2>
-            <p class="subtitle">Inserisci il nome della città per sapere le condizioni meteo</p>
-
-            <!--<form id="weather-form" action="/weather" method="POST">-->
-            <form id="weather-form">
-                <input type="text" id="city-input" name="city" placeholder="Nome della città" required>
-                <button type="submit">Invia</button>
-            </form>
+            <!-- RISULTATO METEO -->
+            <div class="weather-box" id="weather-result"></div>
+            <!-- fine del dom-->
         </div>
+        
+        <!-- FOOTER -->
+        <div id="footer"></div>
+        <script src="js/footer.js"></script>
+        <script src="js/weather.js"></script>
 
-
-        <!-- RISULTATO METEO -->
-        <div class="weather-box" id="weather-result"></div>
-        <!-- fine del dom-->
-    </div>
-    <!-- FOOTER -->
-    <div id="footer"></div>
-    <script>
-        fetch("/components/footer.html")
-            .then(res => res.text())
-            .then(html => document.getElementById("footer").innerHTML = html);
-    </script>
-    <script src="/js/weather.js"></script>
-</body>
-
+    </body>
 </html>

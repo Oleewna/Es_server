@@ -28,6 +28,8 @@ echo INSTALLAZIONE FBI-SERVICE
 echo ==============================
 cd ..\fbi-service
 echo Python dependencies use the standard library only; no extra install required.
+echo Python 3.8+ is required to run the FBI service.
+echo If the machine does not have Python installed, install it from https://www.python.org/downloads/windows/
 
 echo.
 echo ==============================

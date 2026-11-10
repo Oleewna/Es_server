@@ -1,64 +1,44 @@
 <!DOCTYPE html>
-<html lang="it"><head>
-    <meta charset="UTF-8">
-    <title>Sign In</title>
-    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
-    <!-- CSS navbar + footer + signin -->
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/signin.css">
-</head>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <title>Sign In</title>
+        <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
+        <!-- CSS navbar + footer + signin -->
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/footer.css">
+        <link rel="stylesheet" href="css/signin.css">
+    </head>
 
-<body>
+    <body>
 
-    <!-- NAVBAR -->
-    <div id="navbar"></div>
+        <!-- NAVBAR -->
+        <div id="navbar"></div>
+        <script src="js/navbar.js"></script>
+        <!-- <script>
+            fetch("components/navbar.html")
+                .then(res => res.text())
+                .then(html => document.getElementById("navbar").innerHTML = html);
+        </script> -->
 
-    <script>
-        fetch("/components/navbar.html")
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById("navbar").innerHTML = html;
-
-                const userName = new URLSearchParams(window.location.search).get("welcome");
-                const loginLink = document.getElementById("google-login-link");
-
-                if (userName && loginLink) {
-                    loginLink.textContent = `Benvenuto ${decodeURIComponent(userName)}`;
-                    loginLink.href = "#";
-                }
-            });
-    </script>
-
-    <!-- SIGNIN FORM -->
-    <div class="signin-wrapper">
-        <div class="signin-box">
-            <h2>Registrati</h2>
-
-            <form action="/signin" method="POST">
-
-                <input type="text" name="nome" placeholder="Nome" required="">
-                <input type="text" name="cognome" placeholder="Cognome" required="">
-
-                <input type="email" name="email" placeholder="Email" required="">
-
-                <input type="password" name="password" placeholder="Password" required="">
-                <input type="password" name="confirm_password" placeholder="Conferma Password" required="">
-
-                <button type="submit">Crea Account</button>
-            </form>
+        <!-- SIGNIN FORM -->
+        <div class="signin-wrapper">
+            <div class="signin-box">
+                <h2>Registrati</h2>
+                <form action="/signin" method="POST">
+                    <input type="text" name="nome" placeholder="Nome" required="">
+                    <input type="text" name="cognome" placeholder="Cognome" required="">
+                    <input type="email" name="email" placeholder="Email" required="">
+                    <input type="password" name="password" placeholder="Password" required="">
+                    <input type="password" name="confirm_password" placeholder="Conferma Password" required="">
+                    <button type="submit">Crea Account</button>
+                </form>
+            </div>
         </div>
-    </div>
+        
+        <!-- FOOTER -->
+        <div id="footer"></div>
+        <script src="js/footer.js"></script>
 
-    <!-- FOOTER -->
-    <div id="footer"><footer class="footer">
-    <p>© 2026 MyApp – Tutti i diritti riservati</p>
-</footer></div>
-    <script>
-        fetch("/components/footer.html")
-            .then(res => res.text())
-            .then(html => document.getElementById("footer").innerHTML = html);
-    </script>
-
-
-</body></html>
+    </body>
+</html>

@@ -10,6 +10,10 @@ for %%p in (3000 3001 3002 4000) do (
   )
 )
 
+for %%m in (python.exe python3.exe python3.12.exe python3.11.exe python3.10.exe) do (
+  taskkill /F /IM %%m >nul 2>&1
+)
+
 start "Auth Service" /D "%~dp0backend\auth-service" cmd /k "npm install && node src\authserver.js"
 start "Service" /D "%~dp0backend\service" cmd /k "npm install && node src\server.js"
 
@@ -17,8 +21,41 @@ set "PYTHON_EXE="
 for %%v in (Python312 Python313 Python311 Python310 Python39 Python38) do (
   if exist "%LOCALAPPDATA%\Programs\Python\%%v\python.exe" set "PYTHON_EXE=%LOCALAPPDATA%\Programs\Python\%%v\python.exe"
 )
-if not defined PYTHON_EXE set "PYTHON_EXE=python"
-start "FBI Wanted Service" /D "%~dp0backend\fbi-service" cmd /k "\"%PYTHON_EXE%\" server.py"
+
+if not defined PYTHON_EXE (
+  for %%p in ("%ProgramFiles%\Python" "%ProgramFiles(x86)%\Python" "%ProgramFiles%\Python3" "%ProgramFiles(x86)%\Python3") do (
+    if exist "%%~p" for /d %%d in ("%%~p\*") do (
+      if exist "%%~d\python.exe" set "PYTHON_EXE=%%~d\python.exe"
+    )
+  )
+)
+
+if not defined PYTHON_EXE (
+  where py >nul 2>&1
+  if not errorlevel 1 set "PYTHON_EXE=py"
+)
+
+if not defined PYTHON_EXE (
+  where python >nul 2>&1
+  if not errorlevel 1 set "PYTHON_EXE=python"
+)
+
+if not defined PYTHON_EXE (
+  where python3 >nul 2>&1
+  if not errorlevel 1 set "PYTHON_EXE=python3"
+)
+
+if not defined PYTHON_EXE (
+  echo FBI Wanted Service requires Python 3.8 or newer.
+  echo Python was not found in the standard Windows locations.
+  echo Install it with: winget install Python.Python.3.12
+  echo or from https://www.python.org/downloads/windows/
+  echo then rerun run.bat
+  pause
+  exit /b 1
+)
+
+start "FBI Wanted Service" /D "%~dp0backend\fbi-service" "%PYTHON_EXE%" server.py
 
 start "Gateway" /D "%~dp0backend\gateway" cmd /k "npm install && node src\gateway.js"
 

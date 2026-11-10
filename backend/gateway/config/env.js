@@ -7,5 +7,7 @@ module.exports = {
 
     AUTH_SERVICE_URL: process.env.AUTH_SERVICE_URL || "http://localhost:3001",
 
-    FBI_SERVICE_URL: process.env.FBI_SERVICE_URL || "http://localhost:3002"
+    FBI_SERVICE_URL: process.env.FBI_SERVICE_URL || "http://localhost:3002",
+
+    WANTED_SERVICE_URL: process.env.WANTED_SERVICE_URL || process.env.FBI_SERVICE_URL || "http://localhost:3002"
 };

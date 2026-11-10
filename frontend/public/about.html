@@ -1,78 +1,56 @@
-<html lang="it"><head>
-    <meta charset="UTF-8">
-    <title>About</title>
-    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/about.css">
-</head>
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <title>About</title>
+        <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/footer.css">
+        <link rel="stylesheet" href="css/about.css">
+    </head>
 
-<body>
+    <body>
 
-    <!-- NAVBAR -->
-    <div id="navbar"></div>
+        <!-- NAVBAR -->
+        <div id="navbar"></div>
+        <script src="js/navbar.js"></script>
+        <!-- <script>
+            fetch("components/navbar.html")
+                .then(res => res.text())
+                .then(html => document.getElementById("navbar").innerHTML = html);
+        </script> -->
 
-    <script>
-        fetch("/components/navbar.html")
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById("navbar").innerHTML = html;
-
-                const userName = new URLSearchParams(window.location.search).get("welcome");
-                const loginLink = document.getElementById("google-login-link");
-
-                if (userName && loginLink) {
-                    loginLink.textContent = `Benvenuto ${decodeURIComponent(userName)}`;
-                    loginLink.href = "#";
-                }
-            });
-    </script>
-
-    <!-- ABOUT SECTION -->
-    <div class="about-wrapper">
-        <div class="about-box">
-
-            <h2>Chi Siamo</h2>
-
-            <p>
-                MyApp nasce nel 2024 come progetto personale con un obiettivo semplice:
-                creare un'applicazione moderna, veloce e intuitiva per gestire informazioni
-                quotidiane come meteo, accesso utenti e contenuti personalizzati.
-            </p>
-
-            <p>
-                Nel corso del tempo, MyApp è cresciuta grazie alla passione per il design,
-                la programmazione e la volontà di offrire un'esperienza pulita e professionale.
-                Oggi il progetto continua ad evolversi, integrando nuove funzionalità e
-                migliorando costantemente l'interfaccia.
-            </p>
-
-            <h3>La Nostra Storia</h3>
-
-            <div class="about-images">
-                <img src="https://picsum.photos/400/250?random=1" alt="Team">
-                <img src="https://picsum.photos/400/250?random=2" alt="Office">
+        <!-- ABOUT SECTION -->
+        <div class="about-wrapper">
+            <div class="about-box">
+                <h2>Chi Siamo</h2>
+                <p>
+                    MyApp nasce nel 2024 come progetto personale con un obiettivo semplice:
+                    creare un'applicazione moderna, veloce e intuitiva per gestire informazioni
+                    quotidiane come meteo, accesso utenti e contenuti personalizzati.
+                </p>
+                <p>
+                    Nel corso del tempo, MyApp è cresciuta grazie alla passione per il design,
+                    la programmazione e la volontà di offrire un'esperienza pulita e professionale.
+                    Oggi il progetto continua ad evolversi, integrando nuove funzionalità e
+                    migliorando costantemente l'interfaccia.
+                </p>
+                <h3>La Nostra Storia</h3>
+                <div class="about-images">
+                    <img src="https://picsum.photos/400/250?random=1" alt="Team">
+                    <img src="https://picsum.photos/400/250?random=2" alt="Office">
+                </div>
+                <p>
+                    Il team è composto da sviluppatori, designer e appassionati di tecnologia
+                    che credono nella semplicità e nella cura dei dettagli. Ogni funzionalità
+                    viene progettata per essere chiara, utile e piacevole da utilizzare.
+                </p>
             </div>
-
-            <p>
-                Il team è composto da sviluppatori, designer e appassionati di tecnologia
-                che credono nella semplicità e nella cura dei dettagli. Ogni funzionalità
-                viene progettata per essere chiara, utile e piacevole da utilizzare.
-            </p>
-
         </div>
-    </div>
 
-    <!-- FOOTER -->
-    <div id="footer"><footer class="footer">
-    <p>© 2026 MyApp – Tutti i diritti riservati</p>
-</footer></div>
-    <script>
-        fetch("/components/footer.html")
-            .then(res => res.text())
-            .then(html => document.getElementById("footer").innerHTML = html);
-    </script>
+        <!-- FOOTER -->
+        <div id="footer"></div>
+        <script src="js/footer.js"></script>
 
-
-
-</body></html>
+    </body>
+</html>

@@ -33,8 +33,8 @@ class WantedHandler(SimpleHTTPRequestHandler):
         if path == "/":
             self.path = "/fbi.html"
 
-        # questo endpoint restituisce i dati che fbi.js inserisce nella pagina.
-        if path == "/api/wanted/today":
+        # Compatibilità con endpoint legacy e con i client che chiamano la versione v1.
+        if path in {"/today", "/api/wanted/today", "/api/v1/wanted/today"}:
             try:
                 person = item_to_json(get_daily_item())
             except RuntimeError as error:

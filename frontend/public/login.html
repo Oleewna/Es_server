@@ -1,53 +1,38 @@
-<html lang="it"><head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
-    <link rel="stylesheet" href="/css/login.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/footer.css">
-</head>
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=67387&format=png&color=000000">
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/navbar.css">
+        <link rel="stylesheet" href="css/footer.css">
+    </head>
 
-<body>
-    <div id="navbar"></div>
+    <body>
+        <!-- NAVBAR -->
+        <div id="navbar"></div>
+        <script src="js/navbar.js"></script>
+        <!-- <script>
+            fetch("components/navbar.html")
+                .then(res => res.text())
+                .then(html => document.getElementById("navbar").innerHTML = html);
+        </script> -->
+        
+        <div class="login-wrapper">
+            <div class="login-box">
+                <h2>Login</h2>
+                <form action="/api/v1/login" method="POST">
+                    <input type="text" name="username" placeholder="Username" required="">
+                    <input type="password" name="password" placeholder="Password" required="">
+                    <button type="submit">Accedi</button>
+                </form>
+            </div>
+        </div>
 
-    <script>
-        fetch("/components/navbar.html")
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById("navbar").innerHTML = html;
+        <!-- FOOTER -->
+        <div id="footer"></div>
+        <script src="js/footer.js"></script>
 
-                const userName = new URLSearchParams(window.location.search).get("welcome");
-                const loginLink = document.getElementById("google-login-link");
-
-                if (userName && loginLink) {
-                    loginLink.textContent = `Benvenuto ${decodeURIComponent(userName)}`;
-                    loginLink.href = "#";
-                }
-            });
-    </script>
-    
-<div class="login-wrapper">
-    <div class="login-box">
-        <h2>Login</h2>
-        <form action="/api/v1/login" method="POST">
-            <input type="text" name="username" placeholder="Username" required="">
-            <input type="password" name="password" placeholder="Password" required="">
-            <button type="submit">Accedi</button>
-        </form>
-    </div>
-</div>
-    <!-- FOOTER -->
-    <div id="footer">
-        <footer class="footer">
-    <p>© 2026 MyApp – Tutti i diritti riservati</p>
-        </footer>
-    </div>
-
-    <script>
-        fetch("/components/footer.html")
-            .then(res => res.text())
-            .then(html => document.getElementById("footer").innerHTML = html);
-    </script>
-
-
-</body></html>
+    </body>
+</html>
