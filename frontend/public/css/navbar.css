@@ -23,11 +23,24 @@ body {
     z-index: 100;
 }
 
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
 .nav-logo {
     font-size: 22px;
     font-weight: bold;
     color: #333;
     letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.welcome-user {
+    color: #2d7d46;
+    font-weight: 600;
     white-space: nowrap;
 }
 
@@ -40,6 +53,7 @@ body {
     gap: 10px 18px;
     margin: 0;
     padding: 0;
+    margin-left: auto;
 }
 
 .nav-links a {

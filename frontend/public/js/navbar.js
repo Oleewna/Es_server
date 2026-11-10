@@ -12,6 +12,8 @@ async function loadNavbar() {
 
     // 2. Chiede al backend chi è loggato
     const authArea = document.getElementById("auth-area");
+    const welcomeUser = document.getElementById("welcome-user");
+
     try {
         const response = await fetch("/api/v1/auth/me"); //endpoint standard google
 
@@ -22,16 +24,17 @@ async function loadNavbar() {
         if (user.authenticated) {
             authArea.replaceChildren(); //quando autenticato toglie il contenuto "Login with google"
 
-            // textContent (NON innerHTML): il nome arriva da Google ed è dato esterno,
-            // con innerHTML sarebbe una possibile XSS
-            const hello = document.createElement("span");
-            hello.textContent = `Ciao ${user.firstName} `; //carico il welcome
+            if (welcomeUser) {
+                // textContent (NON innerHTML): il nome arriva da Google ed è dato esterno,
+                // con innerHTML sarebbe una possibile XSS
+                welcomeUser.textContent = `Ciao ${user.firstName}`;
+            }
 
             const logout = document.createElement("a");
             logout.href = "/api/v1/auth/logout"; //carico il link logout
             logout.textContent = "Logout";
 
-            authArea.append(hello, logout);
+            authArea.append(logout);
         }
         // se non autenticato resta il link "Login with Google" già presente
     } catch (err) {
