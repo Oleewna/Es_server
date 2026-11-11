@@ -24,6 +24,13 @@ call npm install
 
 echo.
 echo ==============================
+echo INSTALLAZIONE PERSISTANCE-SERVICE
+echo ==============================
+cd ..\persistance-service
+call npm install
+
+echo.
+echo ==============================
 echo INSTALLAZIONE FBI-SERVICE
 echo ==============================
 cd ..\fbi-service

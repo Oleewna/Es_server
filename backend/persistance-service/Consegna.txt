@@ -1,0 +1,1 @@
+Dopo l'autenticazione in index oltre all'immagine gif che appare deve apparire anche un bottone "Data" che cliccato, richiama persistance-service, che restituisce un file json stampato sotto il bottone con una parola(ciao)

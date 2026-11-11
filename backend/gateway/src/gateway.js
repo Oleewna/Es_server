@@ -23,6 +23,20 @@ app.use("/api/v1/auth", authProxy);
 
 app.use("/api/v1/wanted", wantedProxy);
 
+app.get("/api/v1/data", async (req, res) => {
+    try {
+        const response = await fetch(`${config.PERSISTENCE_SERVICE_URL}/api/data`);
+        const body = await response.text();
+
+        res.status(response.status);
+        res.set("Content-Type", "application/json; charset=utf-8");
+        res.send(body);
+    } catch (error) {
+        console.error("Persistence service unavailable:", error);
+        res.status(502).json({ error: "Impossibile contattare il servizio di persistenza." });
+    }
+});
+
 app.use("/api/v1", serviceProxy);
 
 app.listen(config.GATEWAY_PORT, () => {

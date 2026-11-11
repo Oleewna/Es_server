@@ -1,0 +1,9 @@
+{
+  "message": "ciao",
+  "status": "success",
+  "service": "persistance-service",
+  "data": {
+    "id": 1,
+    "text": "ciao"
+  }
+}
