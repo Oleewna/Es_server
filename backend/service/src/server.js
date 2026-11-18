@@ -32,6 +32,37 @@ app.get("/api/v1/wanted/today", async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+async function forwardToMongoService(req, res, path, method = "GET", body) {
+    try {
+        const options = {
+            method,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+
+        if (body && (method === "POST" || method === "PUT" || method === "PATCH")) {
+            options.body = JSON.stringify(body);
+        }
+
+        const response = await fetch(`http://localhost:3003${path}`, options);
+        const responseText = await response.text();
+
+        res.status(response.status);
+        res.set("Content-Type", "application/json; charset=utf-8");
+        res.send(responseText);
+    } catch (error) {
+        console.error("Mongo service unavailable:", error);
+        res.status(502).json({ error: true, message: "Impossibile contattare il servizio MongoDB." });
+    }
+}
+
+app.get("/api/v1/db/weather", (req, res) => forwardToMongoService(req, res, "/api/db/weather"));
+app.post("/api/v1/db/weather", (req, res) => forwardToMongoService(req, res, "/api/db/weather", "POST", req.body));
+app.get("/api/v1/db/users", (req, res) => forwardToMongoService(req, res, "/api/db/users"));
+app.post("/api/v1/db/users", (req, res) => forwardToMongoService(req, res, "/api/db/users", "POST", req.body));
+=======
 app.get("/api/v1/data", async (req, res) => {
     try {
         const response = await fetch("http://localhost:3003/api/data");
@@ -45,11 +76,14 @@ app.get("/api/v1/data", async (req, res) => {
         res.status(502).json({ error: "Impossibile contattare il servizio di persistenza." });
     }
 });
+>>>>>>> 7e583bde0ac5af73691034d39dcf6a0307c15d49
 
 //gestione delle routes
 app.use("/", pagesRoutes);
 app.use("/", authRoutes);
 app.use("/", weatherRoutes);
+app.use("/api/v1", weatherRoutes);
+app.use("/api/v1", authRoutes);
 
 const server = app.listen(port, () => {
     console.log(`Server avviato su http://localhost:${port}`);

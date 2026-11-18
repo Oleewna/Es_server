@@ -5,6 +5,7 @@ const router = express.Router();
 const paths = require("../../config/path");
 //const { weatherController } = require("../controllers/weatherController");
 const { weatherController } = require(paths.CONTROLLERS + "/weatherController");
+
 router.post("/weather", weatherController);
 
 module.exports = router;

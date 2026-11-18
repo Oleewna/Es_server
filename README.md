@@ -1,6 +1,6 @@
 # ES Server
 
-This project is a small full-stack application that combines a static frontend, a Node.js backend, a gateway, a Google OAuth auth service, and a Python-based FBI Wanted service. It is designed as a lightweight microservice prototype for serving pages, handling weather lookups, and exposing a public-facing wanted API.
+This project is a microservice-style web app built to serve a static frontend, handle authentication, expose weather and FBI data, and persist app data in a dedicated MongoDB service.
 
 ## Project structure
 
@@ -35,77 +35,94 @@ Es_server/
 │   │   ├── src/
 │   │   ├── package.json
 │   │   └── .env
+│   ├── mongo-service/
+│   │   ├── src/
+│   │   ├── package.json
+│   │   └── .env
 │   └── fbi-service/
 │       ├── server.py
 │       ├── utils/
-│       └── requirements.txt (if added locally)
+│       └── requirements.txt
 └── .gitignore
 ```
 
 ## Services and responsibilities
 
 ### 1) Main service (`backend/service`)
-This Node.js app serves the frontend static assets and exposes the main application routes.
+This Node.js app serves the frontend and exposes the main page routes.
 
-Important endpoints:
-- `GET /` — home page
-- `GET /about` — about page
-- `GET /weather` — weather page
-- `POST /weather` — weather lookup route
-- `GET /api/v1/wanted/today` — forwards to the FBI service
-
-The service also validates city input before calling an external weather API, normalizes the result, and returns JSON for the frontend UI.
+Responsibilities:
+- serve the static HTML and JS assets
+- expose routes such as `/`, `/about`, `/weather`, `/signin`
+- handle the demo login request
+- call the weather API and return normalized results
+- forward the FBI request through the gateway
 
 ### 2) Gateway (`backend/gateway`)
-The gateway exposes a versioned API surface and routes requests to the correct upstream service.
+This acts as the single entry point for the frontend.
 
-Typical routes:
-- `http://localhost:4000/api/v1/...`
-- proxied to the main service by default
-- `http://localhost:4000/api/v1/auth/...` for auth-related routes
-- `http://localhost:4000/api/v1/wanted/...` for wanted data
+Responsibilities:
+- centralize all HTTP access
+- route requests to the correct upstream service
+- keep the API versioned under `/api/v1`
+- expose the MongoDB service under `/api/v1/db`
 
 ### 3) Auth service (`backend/auth-service`)
-This Express app provides Google OAuth login flow and session handling.
+This service handles Google OAuth and session-based auth.
 
-Typical endpoints:
-- `GET /google` — starts Google login
-- `GET /google/callback` — callback after login
-- `GET /me` — returns current auth state
-- `GET /logout` — destroys session and redirects
+### 4) Mongo service (`backend/mongo-service`)
+This is the dedicated database layer in charge of persisting application data in MongoDB.
 
-The service is intended to be used with Google credentials in the environment configuration.
+Stored data includes:
+- users
+- weather search history
 
-### 4) FBI Wanted service (`backend/fbi-service`)
-This Python service pulls public FBI wanted data from the FBI API and exposes a simplified endpoint for the frontend.
+Routes exposed by this service:
+- `GET /api/db/users`
+- `POST /api/db/users`
+- `GET /api/db/weather`
+- `POST /api/db/weather`
 
-Endpoint:
-- `http://localhost:3002/api/wanted/today`
+### 5) FBI Wanted service (`backend/fbi-service`)
+This Python service fetches public data from the FBI API and returns one featured wanted item.
 
-The main service forwards that request via `GET /api/v1/wanted/today`.
+## What is saved in the website
+
+The app now saves meaningful data from the actual website flow:
+
+- login attempts and local users are stored in the `users` collection
+- every weather search is saved in the `weatherSearches` collection
+- the weather page shows the latest saved searches so the user can see what was persisted
+
+This makes the project work like a real CRUD-based application instead of only a demo front-end.
 
 ## Quick start
 
-The easiest way to start the app on Windows is the provided script:
+Run the Windows startup script:
 
 ```bat
 run.bat
 ```
 
-This script does the following:
-- stops any existing listeners on ports 3000, 3001, 3002, and 4000
-- installs dependencies and starts:
-  - auth service on port 3001
-  - main service on port 3000
-  - FBI wanted service on port 3002
-  - gateway on port 4000
+The script starts:
+- Mongo service on port `3003`
+- auth service on port `3001`
+- main service on port `3000`
+- FBI service on port `3002`
+- gateway on port `4000`
 
 ## Manual startup
 
 ### 1) Install dependencies
 
+```bat
+install_module.bat
+```
+
+Or manually:
+
 ```bash
-cd backend/service
+cd backend/mongo-service
 npm install
 
 cd ../gateway
@@ -113,26 +130,32 @@ npm install
 
 cd ../auth-service
 npm install
+
+cd ../service
+npm install
 ```
 
-For the Python service:
+Python dependencies for the FBI service:
 
 ```bash
-cd ../fbi-service
+cd backend/fbi-service
 python -m pip install -r requirements.txt
 ```
 
-If a requirements file is not present, install the needed Python packages manually for the service.
+### 2) Configure `.env`
 
-### 2) Configure environment variables
+#### `backend/mongo-service/.env`
 
-Create `.env` files in the three Node.js folders as needed.
+```env
+PORT=3003
+MONGODB_URI=mongodb+srv://your_user:your_password@your_cluster.mongodb.net/es_server
+```
 
 #### `backend/service/.env`
 
 ```env
 PORT=3000
-WEATHER_API_KEY=your_weather_api_key_here
+WEATHER_API_KEY=your_weather_api_key
 ```
 
 #### `backend/gateway/.env`
@@ -142,6 +165,7 @@ GATEWAY_PORT=4000
 SERVICE_URL=http://localhost:3000
 AUTH_SERVICE_URL=http://localhost:3001
 FBI_SERVICE_URL=http://localhost:3002
+DATABASE_SERVICE_URL=http://localhost:3003
 ```
 
 #### `backend/auth-service/.env`
@@ -153,64 +177,42 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 FRONTEND_URL=http://localhost:3000
 ```
 
-#### `backend/fbi-service/.env` (optional)
-
-```env
-WANTED_PORT=3002
-```
-
 ### 3) Start the services
 
-#### Main service
-
 ```bash
-cd backend/service
+cd backend/mongo-service
 node src/server.js
-```
 
-#### Gateway
+cd ../service
+node src/server.js
 
-```bash
-cd backend/gateway
+cd ../gateway
 node src/gateway.js
-```
 
-#### Auth service
-
-```bash
-cd backend/auth-service
+cd ../auth-service
 node src/authserver.js
-```
 
-#### FBI service
-
-```bash
-cd backend/fbi-service
+cd ../fbi-service
 python server.py
 ```
 
 ## Local URLs
 
-After startup, the app is available at:
-
 - Frontend: http://localhost:3000
 - Gateway: http://localhost:4000/api/v1/
+- Mongo DB service: http://localhost:3003
 - Auth service: http://localhost:3001
-- FBI wanted service: http://localhost:3002
-- FBI wanted JSON endpoint: http://localhost:3002/api/wanted/today
+- FBI service: http://localhost:3002
+- Weather saved history: http://localhost:3003/api/db/weather
 
 ## Notes
 
-- The frontend static assets live under `frontend/public` and are served by the main backend service.
-- The weather flow is a prototype and depends on a valid external weather API key.
-- The authentication flow is a Google OAuth prototype and requires valid Google credentials in the auth service environment.
-- The FBI wanted service is separate from the main backend and returns a daily featured wanted person.
-- This repository is intended as a learning/demo project and is not a production-ready deployment setup.
+- The Mongo service is intentionally separate from the main app service to follow the same architecture as the other microservices.
+- The weather page loads and shows the latest saved weather searches from MongoDB.
+- The login flow saves a user record in MongoDB when the demo credentials are valid.
+- This project is a learning/demo implementation and not a production deployment setup.
 
 ## Demo credentials
 
-The main login route in the service is a simple demo check and accepts:
 - username: `admin`
 - password: `1234`
-
-These values are for local testing only.

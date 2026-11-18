@@ -14,6 +14,7 @@ for %%m in (python.exe python3.exe python3.12.exe python3.11.exe python3.10.exe)
   taskkill /F /IM %%m >nul 2>&1
 )
 
+start "Mongo Service" /D "%~dp0backend\mongo-service" cmd /k "npm install && node src\server.js"
 start "Auth Service" /D "%~dp0backend\auth-service" cmd /k "npm install && node src\authserver.js"
 start "Service" /D "%~dp0backend\service" cmd /k "npm install && node src\server.js"
 start "Persistence Service" /D "%~dp0backend\persistance-service" cmd /k "npm install && node src\persistanceserver.js"

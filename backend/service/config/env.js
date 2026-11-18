@@ -27,7 +27,10 @@ requiredVars.forEach((key) => {
     }
 });
 
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/es_server";
+
 module.exports = {
     WEATHER_API_KEY: process.env.WEATHER_API_KEY,
-    PORT: parseInt(process.env.PORT, 10)
+    PORT: parseInt(process.env.PORT, 10),
+    MONGODB_URI
 };

@@ -18,11 +18,15 @@ questi quelli mascheratihttp://localhost:4000/api/v1/signin*/
 const authProxy = require("../proxies/authProxy");
 const wantedProxy = require("../proxies/wantedProxy");
 const serviceProxy = require("../proxies/serviceProxy");
+const mongoProxy = require("../proxies/mongoProxy");
 
 app.use("/api/v1/auth", authProxy);
 
 app.use("/api/v1/wanted", wantedProxy);
 
+<<<<<<< HEAD
+app.use("/api/v1/db", mongoProxy);
+=======
 app.get("/api/v1/data", async (req, res) => {
     try {
         const response = await fetch(`${config.PERSISTENCE_SERVICE_URL}/api/data`);
@@ -36,6 +40,7 @@ app.get("/api/v1/data", async (req, res) => {
         res.status(502).json({ error: "Impossibile contattare il servizio di persistenza." });
     }
 });
+>>>>>>> 7e583bde0ac5af73691034d39dcf6a0307c15d49
 
 app.use("/api/v1", serviceProxy);
 

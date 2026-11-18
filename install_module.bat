@@ -3,9 +3,16 @@ title Installazione dipendenze Node.js
 
 echo.
 echo ==============================
+echo INSTALLAZIONE MONGO-SERVICE
+echo ==============================
+cd backend\mongo-service
+call npm install
+
+echo.
+echo ==============================
 echo INSTALLAZIONE GATEWAY
 echo ==============================
-cd backend\gateway
+cd ..\gateway
 call npm install
 
 echo.
