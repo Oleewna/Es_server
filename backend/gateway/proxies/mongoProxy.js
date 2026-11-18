@@ -5,6 +5,6 @@ module.exports = createProxyMiddleware({
     target: config.DATABASE_SERVICE_URL,
     changeOrigin: true,
     pathRewrite: {
-        "^/api/v1/db": ""
+        "^/api/v1/db": "/api/db"
     }
 });

@@ -1,81 +1,123 @@
 async function loadWeatherHistory() {
     const historyBox = document.getElementById("weather-history");
-
     if (!historyBox) return;
+
+    historyBox.innerHTML = "<div class='weather-response-box subtitle'>Caricamento...</div>";
 
     const candidateUrls = [
         "/api/v1/db/weather",
-        "http://localhost:3000/api/v1/db/weather",
-        "http://localhost:3003/api/db/weather"
+        "http://localhost:3000/api/v1/db/weather"
     ];
 
     for (const url of candidateUrls) {
         try {
             const res = await fetch(url);
-            const data = await res.json();
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-            if (!Array.isArray(data) || data.length === 0) {
+            const data = await res.json();
+            if (!Array.isArray(data)) throw new Error("Risposta storico non valida");
+
+            if (data.length === 0) {
                 historyBox.innerHTML = "<div class='weather-response-box subtitle'>Nessuna ricerca salvata.</div>";
                 return;
             }
 
-            historyBox.innerHTML = data
-                .slice(0, 5)
+            const seenCities = new Set();
+            const uniqueHistory = data.filter((item) => {
+                const cityName = String(item.city || "").trim().toLowerCase();
+                if (!cityName || seenCities.has(cityName)) return false;
+
+                seenCities.add(cityName);
+                return true;
+            }).slice(0, 5);
+
+            historyBox.innerHTML = uniqueHistory
                 .map((item) => `
                     <div class="weather-response-box subtitle">
-                        <strong>${item.city}</strong><br>
-                        ${item.description || "Nessuna descrizione"}<br>
-                        Temperatura: ${item.temperature}°C<br>
-                        Umidità: ${item.humidity}%<br>
-                        Vento: ${item.wind} m/s
+                        <strong>${escapeHtml(item.city)}</strong><br>
+                        ${escapeHtml(item.description || "Nessuna descrizione")}<br>
+                        Temperatura: ${formatNumber(item.temperature)}°C<br>
+                        Umidità: ${formatNumber(item.humidity)}%<br>
+                        Vento: ${formatNumber(item.wind)} m/s
                     </div>
                 `)
                 .join("");
             return;
         } catch (error) {
-            console.warn(`Endpoint non raggiungibile: ${url}`, error);
+            console.warn(`Endpoint storico non raggiungibile: ${url}`, error);
         }
     }
 
     historyBox.innerHTML = "<div class='weather-response-box subtitle'>Impossibile caricare lo storico.</div>";
 }
 
-document.getElementById("weather-form").addEventListener("submit", async function(e) {
-    e.preventDefault(); // evita il redirect
+function escapeHtml(value) {
+    const element = document.createElement("span");
+    element.textContent = value ?? "";
+    return element.innerHTML;
+}
 
-    const city = document.getElementById("city-input").value;
-    const res = await fetch("/api/v1/weather", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ city })
+function formatNumber(value) {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : 0;
+}
+
+const weatherForm = document.getElementById("weather-form");
+
+if (weatherForm) {
+    weatherForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const cityInput = document.getElementById("city-input");
+        const submitButton = document.getElementById("weather-submit");
+        const box = document.getElementById("weather-result");
+        const city = cityInput?.value.trim();
+
+        if (!city) {
+            box.style.display = "block";
+            box.innerHTML = "<div class='weather-response-box subtitle'>Inserisci una città.</div>";
+            return;
+        }
+
+        submitButton.disabled = true;
+        box.style.display = "block";
+        box.innerHTML = "<div class='weather-response-box subtitle'>Caricamento...</div>";
+
+        try {
+            const res = await fetch("/api/v1/weather", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ city })
+            });
+
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+            const data = await res.json();
+
+            if (data.error) {
+                box.innerHTML = `<div class="weather-response-box subtitle">${escapeHtml(data.message || "Errore meteo")}</div>`;
+                return;
+            }
+
+            box.innerHTML = `
+                <div class="weather-response-box subtitle">
+                    <strong>${escapeHtml(data.city)}</strong><br>
+                    ${escapeHtml(data.description)}<br>
+                    Temperatura: ${formatNumber(data.temperature)}°C<br>
+                    Umidità: ${formatNumber(data.humidity)}%<br>
+                    Vento: ${formatNumber(data.wind)} m/s
+                </div>
+            `;
+
+            await loadWeatherHistory();
+        } catch (error) {
+            console.error("Errore richiesta meteo:", error);
+            box.innerHTML = "<div class='weather-response-box subtitle'>Errore nel server meteo. Riprova.</div>";
+        } finally {
+            submitButton.disabled = false;
+        }
     });
-
-    const data = await res.json();
-    const box = document.getElementById("weather-result");
-
-    box.style.display = "block";
-
-    if (data.error) {
-        box.innerHTML = `
-            <div class="weather-response-box subtitle">
-                ${data.message}
-            </div>
-        `;
-        return;
-    }
-
-    box.innerHTML = `
-        <div class="weather-response-box subtitle">
-            <strong>${data.city}</strong><br>
-            ${data.description}<br>
-            Temperatura: ${data.temperature}°C<br>
-            Umidità: ${data.humidity}%<br>
-            Vento: ${data.wind} m/s
-        </div>
-    `;
-
-    await loadWeatherHistory();
-});
+}
 
 loadWeatherHistory();
 

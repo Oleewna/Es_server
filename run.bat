@@ -4,7 +4,7 @@ setlocal EnableExtensions
 cd /d "%~dp0"
 
 rem Kill stale listeners from previous runs before starting fresh.
-for %%p in (3000 3001 3002 3003 4000) do (
+for %%p in (3000 3001 3002 3003 4000 4001) do (
   for /f "tokens=5" %%a in ('netstat -ano -p tcp ^| findstr /R /C:":%%p " 2^>nul') do (
     if not "%%a"=="" taskkill /F /PID %%a >nul 2>&1
   )

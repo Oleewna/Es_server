@@ -32,7 +32,15 @@ app.get("/api/v1/wanted/today", async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
+app.get("/api/v1/components/:component", (req, res) => {
+    const allowedComponents = new Set(["navbar.html", "footer.html"]);
+    if (!allowedComponents.has(req.params.component)) {
+        return res.status(404).json({ error: "Componente non trovato" });
+    }
+
+    res.sendFile(path.join(__dirname, "../../../frontend/public/components", req.params.component));
+});
+
 async function forwardToMongoService(req, res, path, method = "GET", body) {
     try {
         const options = {
@@ -62,10 +70,10 @@ app.get("/api/v1/db/weather", (req, res) => forwardToMongoService(req, res, "/ap
 app.post("/api/v1/db/weather", (req, res) => forwardToMongoService(req, res, "/api/db/weather", "POST", req.body));
 app.get("/api/v1/db/users", (req, res) => forwardToMongoService(req, res, "/api/db/users"));
 app.post("/api/v1/db/users", (req, res) => forwardToMongoService(req, res, "/api/db/users", "POST", req.body));
-=======
+
 app.get("/api/v1/data", async (req, res) => {
     try {
-        const response = await fetch("http://localhost:3003/api/data");
+        const response = await fetch("http://localhost:3004/api/data");
         const body = await response.text();
 
         res.status(response.status);
@@ -76,7 +84,6 @@ app.get("/api/v1/data", async (req, res) => {
         res.status(502).json({ error: "Impossibile contattare il servizio di persistenza." });
     }
 });
->>>>>>> 7e583bde0ac5af73691034d39dcf6a0307c15d49
 
 //gestione delle routes
 app.use("/", pagesRoutes);

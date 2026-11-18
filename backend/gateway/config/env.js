@@ -9,11 +9,9 @@ module.exports = {
 
     FBI_SERVICE_URL: process.env.FBI_SERVICE_URL || "http://localhost:3002",
 
-<<<<<<< HEAD
     DATABASE_SERVICE_URL: process.env.DATABASE_SERVICE_URL || "http://localhost:3003",
-=======
-    PERSISTENCE_SERVICE_URL: process.env.PERSISTENCE_SERVICE_URL || "http://localhost:3003",
->>>>>>> 7e583bde0ac5af73691034d39dcf6a0307c15d49
+
+    PERSISTENCE_SERVICE_URL: process.env.PERSISTENCE_SERVICE_URL || "http://localhost:3004",
 
     WANTED_SERVICE_URL: process.env.WANTED_SERVICE_URL || process.env.FBI_SERVICE_URL || "http://localhost:3002"
 };

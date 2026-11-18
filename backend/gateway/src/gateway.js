@@ -24,9 +24,40 @@ app.use("/api/v1/auth", authProxy);
 
 app.use("/api/v1/wanted", wantedProxy);
 
-<<<<<<< HEAD
+app.get("/api/v1/db/weather", async (req, res) => {
+    try {
+        const response = await fetch(`${config.DATABASE_SERVICE_URL}/api/db/weather`);
+        const body = await response.text();
+
+        res.status(response.status);
+        res.set("Content-Type", "application/json; charset=utf-8");
+        res.send(body);
+    } catch (error) {
+        console.error("MongoDB weather history unavailable:", error);
+        res.status(502).json({ error: true, message: "Impossibile caricare lo storico meteo." });
+    }
+});
+
+app.post("/api/v1/db/weather", async (req, res) => {
+    try {
+        const response = await fetch(`${config.DATABASE_SERVICE_URL}/api/db/weather`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(req.body)
+        });
+        const body = await response.text();
+
+        res.status(response.status);
+        res.set("Content-Type", "application/json; charset=utf-8");
+        res.send(body);
+    } catch (error) {
+        console.error("MongoDB weather save unavailable:", error);
+        res.status(502).json({ error: true, message: "Impossibile salvare la ricerca meteo." });
+    }
+});
+
 app.use("/api/v1/db", mongoProxy);
-=======
+
 app.get("/api/v1/data", async (req, res) => {
     try {
         const response = await fetch(`${config.PERSISTENCE_SERVICE_URL}/api/data`);
@@ -40,7 +71,6 @@ app.get("/api/v1/data", async (req, res) => {
         res.status(502).json({ error: "Impossibile contattare il servizio di persistenza." });
     }
 });
->>>>>>> 7e583bde0ac5af73691034d39dcf6a0307c15d49
 
 app.use("/api/v1", serviceProxy);
 
